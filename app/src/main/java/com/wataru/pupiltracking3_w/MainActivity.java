@@ -535,7 +535,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
                 Imgproc.cvtColor(prthis, prthis, Imgproc.COLOR_BayerBG2RGB);
                 Imgproc.drawContours(prthis, largest_contours, -1, new Scalar(255, 0, 0), 4);
                 if (a > 0) {// largest_contours!=null){
-                    Moments moment = Imgproc.moments(largest_contours.get(0), true);
+                    //Moments moment = Imgproc.moments(largest_contours.get(0), true);
                     //pupilcenter = new Point(moment.get_m10() / moment.get_m00() + PR.x, moment.get_m01() / moment.get_m00() + PR.y); //moment
                     //Imgproc.circle(mRgba, pupilcenter, 2, new Scalar(255, 255, 255, 255),-1); //moment of largest_counter
                     Rect my = Imgproc.boundingRect(largest_contours.get(0));
