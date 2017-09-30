@@ -14,8 +14,11 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.Spinner;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
@@ -75,12 +78,14 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
     private File                   mCascadeFileEye;
     private CascadeClassifier mJavaDetector;
     private CascadeClassifier mJavaDetectorEye;
-
     private int                    mDetectorType       = JAVA_DETECTOR;
     private String[]               mDetectorName;
-
     private float                  mRelativeFaceSize   = 0.3f;
     private int mAbsoluteFaceSize = 0;
+    private List<String> list = new ArrayList<String>();
+    private ArrayAdapter<String> adapter;
+    private static Spinner type = null;
+
 
     private CameraBridgeViewBase mOpenCvCameraView;
     double xCenter = -1;
@@ -224,14 +229,17 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         height = dm.heightPixels;
         width = dm.widthPixels;
-
         wx=(width-200)/2;
         hy=(height-200)/2;
-
+        list.add("2×2");
+        list.add("2×3");
+        list.add("3×3");
+        list.add("3×4");
+        list.add("4×4");
+        list.add("4×5");
         mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.fd_activity_surface_view);
         mOpenCvCameraView.setCvCameraViewListener(this);
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
-
         button_recreate = (Button) findViewById(R.id.recreate);
         button_recreate.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -239,12 +247,30 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
                 onRecreateClick(v);
             }
         });
-
         button_next = (Button) findViewById(R.id.next);
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goScreenSecond();
+            }
+        });
+        type = (Spinner) findViewById(R.id.type);
+        adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, list);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        type.setAdapter(adapter);
+        type.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int arg2, long arg3) {
+                // TODO Auto-generated method stub
+                typex = arg2;
+                arg0.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+
             }
         });
     }
@@ -358,15 +384,6 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
             }
         }
         return mRgba;
-    }
-
-    private void CreateAuxiliaryMats() {
-        if (mGray.empty())
-            return;
-
-        int rows = mGray.rows();
-        int cols = mGray.cols();
-
     }
 
     private Mat M_get_template(CascadeClassifier clasificator, Rect area) {

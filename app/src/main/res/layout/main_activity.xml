@@ -33,6 +33,14 @@
         android:height="30dp"
         android:text="Recreate" />
 
+    <Spinner
+        android:id="@+id/type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:width="100dp"
+        android:height="30dp"
+        android:layout_toRightOf="@+id/recreate" />
+
     <FrameLayout
         android:id="@+id/framelayout"
         android:layout_width="match_parent"
@@ -40,11 +48,5 @@
 
     </FrameLayout>
 
-    <!--<com.wataru.eyetracking_wataru.PortraitCameraView-->
-        <!--android:id="@+id/cameraView"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--opencv:show_fps="true"-->
-        <!--opencv:camera_id="any" />-->
 
 </RelativeLayout>
